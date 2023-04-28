@@ -20,7 +20,7 @@ from django.urls import path,include
 from rest_framework.authtoken import views
 from django.contrib.auth import views as auth_views
 from rest_framework.authtoken import views
-from django.conf.urls import url
+from django.conf.urls import url as path
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -42,7 +42,7 @@ urlpatterns = [
 
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
 urlpatterns += [
-    url(r'^api-token-auth/', views.obtain_auth_token)
+    path(r'^api-token-auth/', views.obtain_auth_token)
 ]
 
 # if settings.DEBUG:
