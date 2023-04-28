@@ -5,7 +5,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from .serializers import videoSerializer  
-
+from first.movie import test_video
 # from .status_url import stock_url
 import os
 from rest_framework.authentication import TokenAuthentication,BasicAuthentication,SessionAuthentication
@@ -45,31 +45,38 @@ class Index(APIView):
         if serializer.is_valid(): 
             ser=serializer.save()
             video=str(local_host_url)+serializer.data['video']
-            width ,height= get_video_resolution(video)
+            # width ,height= get_video_resolution(video)
             img_logo=str(local_host_url)+serializer.data['logo']
             context=serializer.data['content']
             usr=MyUser.objects.get(email=request.user.email)
             usr_img=str(local_host_url)+'/media/'+ str(usr.profile)
-            output_file=f'media/final_video/first_output_{ser.id}.mp4'
-            output_file2=f'media/final_video/{ser.id}.mp4'
-            command = f'ffmpeg -i {video} -i {img_logo} -i {usr_img} -filter_complex \"[0:v][1:v]overlay=10:10[bg];[bg][2:v]overlay={width-150}:8\ , drawtext=text=\'{context}\':fontsize=50:x=w-mod(t*50\,w+tw):y=h/1.2 -th/2:fontcolor=Blue:box=1:boxcolor=black@0.5"  -codec:a copy {output_file}'
             
-            os.system(command)
-            command2 = f'ffmpeg -i {output_file} -vf "drawtext=text={usr.name}":x={width-150}:y=110:fontsize=50:fontcolor=RED" -codec:a copy {output_file2}'
-            os.system(command2)
+            # video, logo, new_line, context, profile, user_name
+            output_file=f'media/final_video/first_output_{ser.id}.mp4'
+            print(output_file)
+            test_video(video, img_logo, context,
+                       usr_img,  usr.name, output_file)
+            # output_file2=f'media/final_video/{ser.id}.mp4'
+            # command = f'ffmpeg -i {video} -i {img_logo} -i {usr_img} -filter_complex \"[0:v][1:v]overlay=10:10[bg];[bg][2:v]overlay={width-150}:8\ , drawtext=text=\'{context}\':fontsize=50:x=w-mod(t*50\,w+tw):y=h/1.2 -th/2:fontcolor=Blue:box=1:boxcolor=black@0.5"  -codec:a copy {output_file}'
+            
+            # os.system(command)
+            # command2 = f'ffmpeg -i {output_file} -vf "drawtext=text={usr.name}":x={width-150}:y=110:fontsize=50:fontcolor=RED" -codec:a copy {output_file2}'
+            # os.system(command2)
             obj=Videomodel.objects.get(id=ser.id)
-            removeable_video=Videomodel.objects.get(id=ser.id).video.path
-            obj.video=f'final_video/{ser.id}.mp4'
+            # removeable_video=Videomodel.objects.get(id=ser.id).video.path
+            obj.video = f'/final_video/first_output_{ser.id}.mp4'
             obj.user=request.user
             obj.save()
             ser=videoSerializer(instance=obj,many=False)
             # delete fun
-            if os.path.exists(removeable_video):
-                os.remove(removeable_video)
+            # if os.path.exists(removeable_video):
+            #     os.remove(removeable_video)
             
-            if os.path.exists(output_file):
-                os.remove(output_file)
+            # if os.path.exists(output_file):
+            #     os.remove(output_file)
             return Response({"status": "success", "data": ser.data}, status=status.HTTP_200_OK) 
         else:  
             return Response({"status": "error", "data": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)  
-        # 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
+
+
+

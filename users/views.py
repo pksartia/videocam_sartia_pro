@@ -46,7 +46,7 @@ from rest_framework.generics import ListCreateAPIView
 
 from rest_framework.authtoken.models import Token
 def index(request):
-    return HttpResponse("hello ")
+    return HttpResponse("hello pK.... ")
 
 def get_tokens_for_user(user):
     refresh = RefreshToken.for_user(user)
