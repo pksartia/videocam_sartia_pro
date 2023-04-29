@@ -30,7 +30,6 @@ urlpatterns = [
     path("account/", include("django.contrib.auth.urls")),
     path("admin/",include("coustomadmin.urls")),
     path('login/', views.obtain_auth_token),
-    path('api-token-auth/', views.obtain_auth_token)
     ########
     
     path('reset_password/', auth_views.PasswordResetView.as_view(
@@ -42,6 +41,7 @@ urlpatterns = [
     path('reset_password_complete/', auth_views.PasswordResetCompleteView.as_view(
         template_name="password_reset_done.html"), name='password_reset_complete'),
 
+    path('api-token-auth/', views.obtain_auth_token)
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
 
 
