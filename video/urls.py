@@ -20,8 +20,8 @@ from django.urls import path,include
 from rest_framework.authtoken import views
 from django.contrib.auth import views as auth_views
 from rest_framework.authtoken import views
-from django.conf.urls import url as path
-
+# from django.conf.urls import url as path
+from rest_framework.authtoken import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('video/',include('first.urls')),
@@ -30,7 +30,9 @@ urlpatterns = [
     path("account/", include("django.contrib.auth.urls")),
     path("admin/",include("coustomadmin.urls")),
     path('login/', views.obtain_auth_token),
+    path('api-token-auth/', views.obtain_auth_token)
     ########
+    
     path('reset_password/', auth_views.PasswordResetView.as_view(
         template_name="password_reset.html"), name='reset_password'),
     path('reset_password_sent/', auth_views.PasswordResetDoneView.as_view(
@@ -41,9 +43,7 @@ urlpatterns = [
         template_name="password_reset_done.html"), name='password_reset_complete'),
 
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
-urlpatterns += [
-    path(r'^api-token-auth/', views.obtain_auth_token)
-]
+
 
 # if settings.DEBUG:
 #         urlpatterns += static(settings.MEDIA_URL,
