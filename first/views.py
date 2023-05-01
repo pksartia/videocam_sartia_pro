@@ -45,7 +45,7 @@ class Index(APIView):
         if serializer.is_valid(): 
             ser=serializer.save()
             video=str(local_host_url)+serializer.data['video']
-            # width ,height= get_video_resolution(video)
+            width ,height= get_video_resolution(video)
             img_logo=str(local_host_url)+serializer.data['logo']
             context=serializer.data['content']
             usr=MyUser.objects.get(email=request.user.email)
@@ -64,7 +64,7 @@ class Index(APIView):
             # os.system(command2)
             obj=Videomodel.objects.get(id=ser.id)
             # removeable_video=Videomodel.objects.get(id=ser.id).video.path
-            obj.video = f'/final_video/first_output_{ser.id}.mp4'
+            obj.video = f'final_video/first_output_{ser.id}.mp4'
             obj.user=request.user
             obj.save()
             ser=videoSerializer(instance=obj,many=False)

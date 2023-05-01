@@ -1,6 +1,5 @@
 
-from moviepy.editor import VideoFileClip, TextClip, ImageClip, CompositeVideoClip
-import os
+
 from django.conf import settings
 from django.urls import reverse
 from django.http import HttpResponseRedirect
